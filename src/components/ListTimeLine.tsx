@@ -1,17 +1,15 @@
 import { Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import ListCard from './ListCard'
-import { ISampleData } from '@/data/data'
+import { ITotalData } from '@/data/data'
 import { router } from 'expo-router'
+import { getRandomArray } from '@/utils/common'
 
 type Props = {
-  title: string
-  start: number
-  end: number
-  items: ISampleData[]
+  data: ITotalData
 }
 
-const ListTimeLine = ({ title, start, end, items }: Props) => {
+const ListTimeLine = ({ data }: Props) => {
   return (
     <View className="flex-row gap-2 -mt-4">
       <View className="flex-col items-center pt-2">
@@ -20,18 +18,27 @@ const ListTimeLine = ({ title, start, end, items }: Props) => {
       </View>
       <View className="flex-1 space-y-2">
         <View className="flex-row justify-between items-center">
-          <Text className="font-semibold text-[20px] text-gray-800">{title}</Text>
-          <TouchableOpacity onPress={() => router.push('/view-more')}>
+          <Text className="font-semibold text-[20px] text-gray-800">{data.title}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              router.push({
+                pathname: '/view-more',
+                params: {
+                  menuId: data.id,
+                },
+              })
+            }}
+          >
             <Text className="font-medium text-sm text-primary-500">Xem thêm</Text>
           </TouchableOpacity>
         </View>
         <View>
           <Text className="font-normal text-md leading-5 text-gray-400">
-            ({start} - {end})
+            ({data.start} - {data.end})
           </Text>
         </View>
         <View>
-          <ListCard items={items} />
+          <ListCard items={getRandomArray(data.list, 2)} />
         </View>
       </View>
     </View>

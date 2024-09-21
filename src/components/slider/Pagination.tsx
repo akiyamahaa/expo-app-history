@@ -1,15 +1,10 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { ISlideData } from '@/data/slide'
-import Animated, {
-  Extrapolation,
-  interpolate,
-  SharedValue,
-  useAnimatedStyle,
-} from 'react-native-reanimated'
+import Animated, { interpolate, SharedValue, useAnimatedStyle } from 'react-native-reanimated'
+import { IData } from '@/data/data'
 
 type Props = {
-  items: ISlideData[]
+  items: IData[]
   paginationIndex: number
   scrollX: SharedValue<number>
 }

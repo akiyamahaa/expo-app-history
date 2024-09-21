@@ -6,10 +6,10 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from 'react-native-reanimated'
-import { ISlideData } from '@/data/slide'
+import { IData, totalData } from '@/data/data'
 
 type SliderItemProps = {
-  item: ISlideData
+  item: IData
   index: number
   scrollX: SharedValue<number>
 }
@@ -47,17 +47,19 @@ const SliderItem = ({ item, index, scrollX }: SliderItemProps) => {
     >
       <View className=" h-[200px] rounded-3xl overflow-hidden" style={{ width: imageWidth }}>
         <ImageBackground
-          source={item.imageSource}
+          source={item.image}
           resizeMode="cover"
           style={{ width: imageWidth }}
           className="h-[200px] justify-end"
         >
           <View className="flex-col items-start p-5">
             <View className="bg-primary-500 py-1 px-2 rounded-3xl">
-              <Text className="text-gray-200 text-xs capitalize">{item.title}</Text>
+              <Text className="text-gray-200 text-xs capitalize">
+                {totalData[item.category].title}
+              </Text>
             </View>
             <Text className="text-white font-medium text-lg" ellipsizeMode="tail" numberOfLines={2}>
-              {item.descrition}
+              {item.description}
             </Text>
           </View>
         </ImageBackground>

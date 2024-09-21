@@ -1,10 +1,10 @@
-import { FlatList, Text, View } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
-import { ISampleData, sampleData } from '@/data/data'
+import { IData } from '@/data/data'
 import Card from './Card'
 
 type Props = {
-  items: ISampleData[]
+  items: IData[]
 }
 
 const ListCard = ({ items }: Props) => {

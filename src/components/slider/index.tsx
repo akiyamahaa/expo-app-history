@@ -1,12 +1,12 @@
 import { View, ViewToken } from 'react-native'
 import React, { useRef, useState } from 'react'
-import { ISlideData } from '@/data/slide'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import SliderItem from './SliderItem'
 import Pagination from './Pagination'
+import { IData } from '@/data/data'
 
 type Props = {
-  itemList: ISlideData[]
+  itemList: IData[]
 }
 const SlideImage = ({ itemList }: Props) => {
   const scrollX = useSharedValue(0)

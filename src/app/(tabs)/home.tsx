@@ -1,15 +1,17 @@
 import { ImageBackground, ScrollView, Text, View } from 'react-native'
 import React from 'react'
 import ScreenWrapper from '@/components/ScreenWrapper'
-import { slideData } from '@/data/slide'
 import SlideImage from '@/components/slider'
 import { images } from '@/constants'
 import ListTimeLine from '@/components/ListTimeLine'
-import ListCard from '@/components/ListCard'
-import { sampleData } from '@/data/data'
 import HeaderTool from '@/components/HeaderTool'
+import { allPosts, totalData } from '@/data/data'
+import { getRandomArray } from '@/utils/common'
+import ListCard from '@/components/ListCard'
 
 const Home = () => {
+  const allData = Object.values(totalData)
+
   return (
     <ImageBackground source={images.bg} className="flex-1">
       <ScrollView className="flex-1">
@@ -23,7 +25,7 @@ const Home = () => {
             </View>
             {/* Slideshow */}
             <View className="">
-              <SlideImage itemList={slideData} />
+              <SlideImage itemList={getRandomArray(allPosts, 3)} />
             </View>
             {/* News */}
             <View className="px-5">
@@ -33,13 +35,16 @@ const Home = () => {
                   <Text className="font-semibold text-[20px] text-gray-800">Gợi ý cho bạn</Text>
                 </View>
                 <View>
-                  <ListCard items={sampleData} />
+                  <ListCard items={getRandomArray(allPosts, 2)} />
                 </View>
               </View>
               {/* Timeline */}
               <View className="mt-8">
-                <ListTimeLine title="Triều đại ngô" start={939} end={965} items={sampleData} />
-                <ListTimeLine title="Triều đình" start={968} end={980} items={sampleData} />
+                {allData.map((data) => (
+                  <View key={data.id}>
+                    <ListTimeLine data={data} />
+                  </View>
+                ))}
               </View>
             </View>
           </View>

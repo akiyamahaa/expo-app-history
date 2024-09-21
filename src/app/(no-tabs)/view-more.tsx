@@ -4,19 +4,20 @@ import { images } from '@/constants'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import HeaderTool from '@/components/HeaderTool'
 import ListCard from '@/components/ListCard'
-import { sampleData } from '@/data/data'
+import { totalData } from '@/data/data'
+import { useLocalSearchParams } from 'expo-router'
 
-type Props = {}
-
-const ViewMore = (props: Props) => {
+const ViewMore = () => {
+  const { menuId } = useLocalSearchParams()
+  const data = totalData[Number(menuId)]
   return (
     <ImageBackground source={images.bg} className="flex-1">
       <ScreenWrapper>
         <HeaderTool hasBack={true} />
         <View className="p-5 gap-4">
-          <Text className="font-semibold text-3xl text-gray-800">Triều đại Ngô</Text>
+          <Text className="font-semibold text-3xl text-gray-800">{data.title}</Text>
           <View>
-            <ListCard items={sampleData} />
+            <ListCard items={data.list} />
           </View>
         </View>
       </ScreenWrapper>

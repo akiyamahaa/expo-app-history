@@ -4,7 +4,8 @@ import { images } from '@/constants'
 import HeaderTool from '@/components/HeaderTool'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import ListCard from '@/components/ListCard'
-import { sampleData } from '@/data/data'
+import { getRandomArray } from '@/utils/common'
+import { allPosts } from '@/data/data'
 
 const Bookmark = () => {
   return (
@@ -14,7 +15,7 @@ const Bookmark = () => {
         <View className="p-5 gap-4">
           <Text className="font-semibold text-3xl text-gray-800">Bài viết đã lưu</Text>
           <View>
-            <ListCard items={sampleData} />
+            <ListCard items={getRandomArray(allPosts, 2)} />
           </View>
         </View>
       </ScreenWrapper>
