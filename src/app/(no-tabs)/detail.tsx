@@ -1,19 +1,54 @@
 import { Image, ImageBackground, ScrollView, StatusBar, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { images } from '@/constants'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import IconButton from '@/components/IconButton'
 import { ArrowLeft, Bookmark } from 'iconsax-react-native'
 import { router, useLocalSearchParams } from 'expo-router'
 import { totalData } from '@/data/data'
+import AsyncStorage from '@react-native-async-storage/async-storage' // Add this import
 
 const Detail = () => {
   const { menuId, itemId } = useLocalSearchParams()
-
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const data = totalData[Number(menuId)]
   const postData = data.list.find((item) => item.id === Number(itemId))
 
-  const handleBookMark = () => {}
+  useEffect(() => {
+    const checkBookmark = async () => {
+      try {
+        const bookmark = await AsyncStorage.getItem(`history-${postData?.category}${postData?.id}`);
+        if (bookmark) {
+          setIsBookmarked(true); // Set bookmark status if found
+        }
+      } catch (error) {
+        console.error('Error checking bookmark:', error);
+      }
+    };
+
+    checkBookmark(); // Call the function to check bookmark status
+  }, [postData?.category, postData?.id]); // Dependency array to run effect when postData.id changes
+
+  const handleBookMark = async () => {
+    try {
+      const bookmarkKey = `history-${postData?.category}${postData?.id}`;
+      if (isBookmarked) {
+        // Remove bookmark if already bookmarked
+        await AsyncStorage.removeItem(bookmarkKey);
+        setIsBookmarked(false); // Update state to reflect that it is no longer bookmarked
+      } else {
+        // Save bookmark if not bookmarked
+        const bookmarkData = {
+          id: postData?.id,
+          category: postData?.category,
+        };
+        await AsyncStorage.setItem(bookmarkKey, JSON.stringify(bookmarkData));
+        setIsBookmarked(true); // Update state to reflect that it is bookmarked
+      }
+    } catch (error) {
+      console.error('Error saving bookmark:', error)
+    }
+  }
   return (
     <ImageBackground source={images.bg} className="flex-1">
       <StatusBar barStyle={'light-content'} />
@@ -29,9 +64,10 @@ const Detail = () => {
               />
               <IconButton
                 IconName={Bookmark}
-                bg="bg-white-lighter"
+                bg={isBookmarked ? "bg-red-300" : 'bg-white-lighter'}
                 onPress={handleBookMark}
                 color="#fff"
+                
               />
             </View>
             <View className="flex-col items-start p-5">
